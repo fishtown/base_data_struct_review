@@ -8,7 +8,8 @@ ds_func: linklist.h LinkList.c main.h main.c
 			tree.h Tree.c \
 			graph.h Graph.c \
 			search.h Search.c \
-			sort.h Sort.c
+			sort.h Sort.c \
+			debug.h
 clean:
 	-rm test
 

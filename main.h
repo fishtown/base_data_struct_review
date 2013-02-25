@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linklist.h"
 typedef enum {
 		LINKLIST = 0,
 		STACK,
