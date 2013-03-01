@@ -31,7 +31,7 @@ void ChainStackEntry()
 		snode->data = -1;
 		snode->next = NULL;
 		CStack *s;
-		s = &snode;
+		s = (CStack *)&snode;
 
 		while (1) {
 			for (i = 0; i < EXIT +1; i ++)
