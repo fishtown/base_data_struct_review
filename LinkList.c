@@ -52,6 +52,7 @@ static void SListEntry()
 					slist_reverse(pslist);
 					continue;
 			case SEND_SLIST:
+					free(slist);
 					break;
 			default:
 				printf("wrong input\n");
@@ -89,6 +90,7 @@ static void DListEntry()
 					dlist_delete(*pdlist);
 					continue;
 			case DEND_DLIST:
+					free(dlist);
 					return;
 			default:
 				printf("wrong input\n");
