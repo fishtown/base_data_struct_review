@@ -7,7 +7,7 @@ void Sort()
 		int i;
 
 		while (1) {
-			printf("输入随机数个数及数值上限:\n");
+			printf("\n\n输入随机数个数及数值上限:\n");
 			scanf("%d %d", &length, &max);
 
 			array = initarray(length,max);
@@ -21,14 +21,15 @@ void Sort()
 			}
 			printf("\n\n");
 
-			printf("选择使用排序方式:\n");
+			printf("选择使用排序方式:\n\n");
 			for (i = 0; i < SORT_END + 1; i ++)
 					printf("%d.%s\n", i, SortFuncTips[i].tips);
+			printf("\n\n");
 			scanf("%d", &i);
 
 			switch (i) {
 					case BUBBLE_SORT:
-						// bubble_sort();
+						 bubble_sort(array,length);
 						 break;
 					case INSERTION_SORT:
 						 break;

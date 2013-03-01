@@ -46,3 +46,41 @@ struct Sort_Func_Tips {
 		{HEAP_SORT, "heap sort(堆排序)"},
 		{SORT_END, "exit(退出)"},
 };
+
+void dump_sorted(int *a, int len)
+{
+	int i;
+
+	printf("排序后序列为:\n");
+	for (i = 0; i < len; i++)
+	{
+		if(!(i % 15))
+			printf("\n");
+		printf("%4d ",a[i]);
+	}
+	printf("\n");
+}
+int swap(int *a, int *b)
+{
+		*a = *a + *b;
+		*b = *a - *b;
+		*a = *a - *b;
+
+		return 1;
+}
+
+/* O(n^2) */
+void bubble_sort(int *a, int len)
+{
+	int i, j = 0;
+	int mov = 0;
+	for (i = 1; i < len; i++)
+	{
+			for (j = 0; j < len - i; j++)
+			{
+					mov += (a[j] > a[j+1]) ? swap(a+j, a+j+1) : 0;
+			}
+	}
+	dump_sorted(a,len);
+	printf("移动次数为 %d\n",mov);
+}
