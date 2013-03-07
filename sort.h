@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <malloc.h>
+#ifndef DEBUG
+#define DEBUG
+#endif
 void Sort();
 static int* initarray(int length, int max)
 {
@@ -60,6 +63,15 @@ void dump_sorted(int *a, int len)
 	}
 	printf("\n");
 }
+void dump_progress(int *a, int len)
+{
+	int i;
+
+	for (i = 0; i < len; i++)
+	{
+		printf("%d ",a[i]);
+	}
+}
 int swap(int *a, int *b)
 {
 		*a = *a + *b;
@@ -83,4 +95,40 @@ void bubble_sort(int *a, int len)
 	}
 	dump_sorted(a,len);
 	printf("移动次数为 %d\n",mov);
+}
+
+int partition(int *a, int low, int high)
+{
+		int pivot = low;
+		int pivotkey = a[low];
+
+		while (low < high)
+		{
+			while(low < high && a[high] >= pivotkey)
+				high --;
+			a[low] = a[high];
+
+			while(low < high && a[low] <= pivotkey)
+				low ++;
+			a[high] = a[low];
+		}
+		a[low] = pivotkey;
+		return low;
+}
+static int qsort_times = 0;
+void quick_sort(int *a, int low,  int high)
+{
+	int pivot;
+	if (low < high) {
+			pivot = partition(a, low, high);
+#ifdef DEBUG
+			printf("第%d次-分割后为{",++qsort_times);
+			dump_progress(a+low, pivot-low );
+			printf("} -[%d]- {",*(a+pivot));
+			dump_progress(a+pivot+1, high-pivot);
+			printf("}\n");
+#endif
+			quick_sort(a, low, pivot-1);
+			quick_sort(a, pivot+1, high);
+	}
 }

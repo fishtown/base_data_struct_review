@@ -44,6 +44,9 @@ void Sort()
 					case SHELL_SORT:
 						 break;
 					case QUICK_SORT:
+						 qsort_times = 0;
+						 quick_sort(array, 0, length-1);
+						 dump_sorted(array, length);
 						 break;
 					case HEAP_SORT:
 						 break;
