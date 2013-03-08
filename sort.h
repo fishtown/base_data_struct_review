@@ -1,10 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <malloc.h>
+#include <string.h>
 #ifndef DEBUG
 #define DEBUG
 #endif
+#undef DEBUG //comment this line if need dump progress
 void Sort();
+static int sort_times = 0;
 static int* initarray(int length, int max)
 {
 		int *result;
@@ -12,7 +15,7 @@ static int* initarray(int length, int max)
 		result = (int *)malloc(sizeof(int) * length);
 		int x = length;
 
-		while (length--)
+		while (length --)
 		{
 				*result = rand() % (max + 1);
 				result ++;
@@ -50,29 +53,29 @@ struct Sort_Func_Tips {
 		{SORT_END, "exit(退出)"},
 };
 
-void dump_sorted(int *a, int len)
+static void dump_sorted(int *a, int len)
 {
 	int i;
 
-	printf("排序后序列为:\n");
+	printf("\n排序后序列为:\n");
 	for (i = 0; i < len; i++)
 	{
-		if(!(i % 15))
+		if (!(i % 15))
 			printf("\n");
-		printf("%4d ",a[i]);
+		printf("%4d ", a[i]);
 	}
 	printf("\n");
 }
-void dump_progress(int *a, int len)
+static void dump_progress(int *a, int len)
 {
 	int i;
 
 	for (i = 0; i < len; i++)
 	{
-		printf("%d ",a[i]);
+		printf("%d ", a[i]);
 	}
 }
-int swap(int *a, int *b)
+static int swap(int *a, int *b)
 {
 		*a = *a + *b;
 		*b = *a - *b;
@@ -82,7 +85,7 @@ int swap(int *a, int *b)
 }
 
 /* O(n^2) */
-void bubble_sort(int *a, int len)
+static void bubble_sort(int *a, int len)
 {
 	int i, j = 0;
 	int mov = 0;
@@ -92,12 +95,15 @@ void bubble_sort(int *a, int len)
 			{
 					mov += (a[j] > a[j+1]) ? swap(a+j, a+j+1) : 0;
 			}
+#ifdef DEBUG
+					printf("\n第%d次冒泡后的序列为：", ++ sort_times);
+					dump_progress(a, len);
+#endif
 	}
-	dump_sorted(a,len);
 	printf("移动次数为 %d\n",mov);
 }
 
-int partition(int *a, int low, int high)
+static int partition(int *a, int low, int high)
 {
 		int pivot = low;
 		int pivotkey = a[low];
@@ -115,20 +121,88 @@ int partition(int *a, int low, int high)
 		a[low] = pivotkey;
 		return low;
 }
-static int qsort_times = 0;
-void quick_sort(int *a, int low,  int high)
+
+
+/* O(nlogn) ~ O(n^2) */
+static void quick_sort(int *a, int low,  int high)
 {
 	int pivot;
 	if (low < high) {
 			pivot = partition(a, low, high);
 #ifdef DEBUG
-			printf("第%d次-分割后为{",++qsort_times);
-			dump_progress(a+low, pivot-low );
-			printf("} -[%d]- {",*(a+pivot));
-			dump_progress(a+pivot+1, high-pivot);
+			printf("第%d次-分割后为{", ++ sort_times);
+			dump_progress(a + low, pivot - low );
+			printf("} -[%d]- {", *(a + pivot));
+			dump_progress(a + pivot + 1, high - pivot);
 			printf("}\n");
 #endif
-			quick_sort(a, low, pivot-1);
-			quick_sort(a, pivot+1, high);
+			quick_sort(a, low, pivot - 1);
+			quick_sort(a, pivot + 1, high);
 	}
+}
+static int getbitlen(int k)
+{
+		int i = 0;
+		while (k /= 10)
+				i ++;
+		return i+1;
+}
+static int getbitvalue(int k, int i)
+{
+		if (i < 1)
+			return k % 10;
+
+		while (i --)
+			k /= 10;
+
+		k %= 10;
+
+		return k;
+}
+
+/*O(n)*/
+static void bucket_sort(int *a, int len, int max)
+{
+		int i,j,l,k = 0;
+		int bkt[10][max];
+		int max_bit = getbitlen(max);
+		for (i = 0; i < max_bit; i ++)
+		{
+			memset(bkt, -1, sizeof(bkt));
+			for (j = 0; j < len; j ++)
+			{
+				k = getbitvalue(a[j],i);
+				//add2bkt(k,a[j]);
+				if (bkt[k][0] == -1)
+						bkt[k][0] = a[j];
+				else
+				{
+					l = 0;
+					while(bkt[k][l] != -1)
+							l ++;
+					bkt[k][l] = a[j];
+				}
+			}
+#ifdef DEBUG
+			printf("第%d次处理的桶状态：\n", ++ sort_times);
+#endif
+			l=0;
+			for (j = 0; j < 10; j ++)
+			{
+#ifdef DEBUG
+				printf("第%d个捅子内容为:  ", j);
+#endif
+				for (k = 0; bkt[j][k] != -1 && k < max; k++)
+				{
+#ifdef DEBUG
+						printf("%d ", bkt[j][k]);
+#endif
+						a[l] = bkt[j][k];
+						l ++;
+				}
+#ifdef DEBUG
+				printf("\n");
+#endif
+			}
+		}
 }

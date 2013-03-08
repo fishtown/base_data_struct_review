@@ -3,17 +3,23 @@ void Sort()
 {
 		printf("-----Sort func libs-----\n");
 		int length, max;
-		int *array;
+		int *array = NULL;
 		int i;
 
 		while (1) {
 			printf("\n\n输入随机数个数及数值上限:\n");
 			scanf("%d %d", &length, &max);
 
-			array = initarray(length,max);
+			if (length < 0 || max < 0)
+			{
+				printf("输入错误，长度和最大值必须大于0\n");
+				return;
+			}
+
+			array = initarray(length, max);
 			printf("产生长度为%d的随机序列：\n", length);
 
-			for(i = 0; i < length; i ++)
+			for (i = 0; i < length; i ++)
 			{
 				if (!(i % 15))
 						printf("\n");
@@ -26,6 +32,7 @@ void Sort()
 					printf("%d.%s\n", i, SortFuncTips[i].tips);
 			printf("\n\n");
 			scanf("%d", &i);
+			sort_times = 0;
 
 			switch (i) {
 					case BUBBLE_SORT:
@@ -34,6 +41,7 @@ void Sort()
 					case INSERTION_SORT:
 						 break;
 					case BUCKET_SORT:
+						 bucket_sort(array, length, max);
 						 break;
 					case COUNTING_SORT:
 						 break;
@@ -44,9 +52,7 @@ void Sort()
 					case SHELL_SORT:
 						 break;
 					case QUICK_SORT:
-						 qsort_times = 0;
 						 quick_sort(array, 0, length-1);
-						 dump_sorted(array, length);
 						 break;
 					case HEAP_SORT:
 						 break;
@@ -56,5 +62,7 @@ void Sort()
 							printf("wrong select...\n");
 							continue;
 			}
+			dump_sorted(array, length);
+			free(array);
 }
 }
