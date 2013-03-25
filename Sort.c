@@ -35,24 +35,27 @@ void Sort()
 			sort_times = 0;
 
 			switch (i) {
-					case BUBBLE_SORT:
-						 bubble_sort(array,length);
+					case BUBBLE_SORT: //O(n^2)
+						 bubble_sort(array, length);
 						 break;
-					case INSERTION_SORT:
+					case INSERTION_SORT: //O(n^2)
+						 insertion_sort(array, length);
 						 break;
-					case BUCKET_SORT:
+					case BUCKET_SORT: //O(n)
 						 bucket_sort(array, length, max);
 						 break;
-					case COUNTING_SORT:
+					case COUNTING_SORT: //O(n), 空间O(length + max)
+						 counting_sort(array, length, max);
 						 break;
 					case MERGE_SORT:
+						 merge_sort(array, length);
 						 break;
 					case BINARY_TREE_SORT:
 						 break;
 					case SHELL_SORT:
 						 break;
-					case QUICK_SORT:
-						 quick_sort(array, 0, length-1);
+					case QUICK_SORT: //O(nlogn) ~ O(n^2)
+						 quick_sort(array, 0, length - 1);
 						 break;
 					case HEAP_SORT:
 						 break;
@@ -62,6 +65,7 @@ void Sort()
 							printf("wrong select...\n");
 							continue;
 			}
+			if (i != COUNTING_SORT)
 			dump_sorted(array, length);
 			free(array);
 }

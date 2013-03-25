@@ -5,7 +5,7 @@
 #ifndef DEBUG
 #define DEBUG
 #endif
-#undef DEBUG //comment this line if need dump progress
+//#undef DEBUG //comment this line if need dump progress
 void Sort();
 static int sort_times = 0;
 static int* initarray(int length, int max)
@@ -17,7 +17,7 @@ static int* initarray(int length, int max)
 
 		while (length --)
 		{
-				*result = rand() % (max + 1);
+				*result = rand() % max;
 				result ++;
 		}
 
@@ -205,4 +205,50 @@ static void bucket_sort(int *a, int len, int max)
 #endif
 			}
 		}
+}
+
+//O(n^2)
+static insertion_sort(int *a, int len)
+{
+		int i, j = 0;
+		for (i = 1; i < len; i ++)
+		{
+				for (j = 0; j < i; j ++)
+				{
+					if (a[i] < a[j])
+							swap(a + i, a + j);
+				}
+		}
+		dump_sorted(a,len);
+}
+
+//O(n)
+static counting_sort(int *a, int len, int max)
+{
+		int b[len]; //b array is for sorted result
+		int c[max]; //c array is for counting result
+		int i, j, k = 0;
+
+		memset(b, 0, sizeof(b));
+		memset(c, 0, sizeof(c));
+
+		for (i = 0; i < len; i ++)
+			c[a[i]] += 1;
+		for (i = 1; i < max; i ++)
+		{
+			c[i] = c[i-1] + c[i];
+		}
+
+		//反向遍历c数组才能保证排序的稳定性
+		for (i = len - 1; i >= 0; i --)
+		{
+			b[c[a[i]] - 1] = a[i];
+			c[a[i]] -= 1;
+		}
+		dump_sorted(b, len);
+}
+static merge_sort(int *a, int len)
+{
+
+
 }
