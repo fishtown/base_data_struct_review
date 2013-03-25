@@ -5,7 +5,7 @@
 #ifndef DEBUG
 #define DEBUG
 #endif
-//#undef DEBUG //comment this line if need dump progress
+#undef DEBUG //comment this line if need dump progress
 void Sort();
 static int sort_times = 0;
 static int* initarray(int length, int max)
@@ -247,8 +247,43 @@ static counting_sort(int *a, int len, int max)
 		}
 		dump_sorted(b, len);
 }
-static merge_sort(int *a, int len)
+
+static merge(int *a, int left, int mid, int right)
 {
+		int i, j, k = 0;
+		int *tmp;
 
+		i = left;
+		j = mid + 1;
+		tmp = (int *)malloc(sizeof(int) * (right - left + 1));
 
+		while (i <= mid && j <= right)
+		{
+			if (a[i] < a[j])
+				tmp[k] = a[i++];
+			else
+				tmp[k] = a[j++];
+			k++;
+		}
+
+		while(i <= mid)
+			tmp[k++] = a[i++];
+
+		while(j <= right)
+			tmp[k++] = a[j++];
+
+		for(i = left, k = 0; i <= right; i++, k++)
+			a[i] = tmp[k];
+}
+//O(nlogn)
+static merge_sort(int *a, int left, int right)
+{
+		int mid = 0;
+		if (left < right)
+		{
+			mid = (left + right) / 2;
+			merge_sort(a, left, mid);
+			merge_sort(a, mid + 1, right);
+			merge(a, left, mid, right);
+		}
 }

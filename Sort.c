@@ -47,8 +47,8 @@ void Sort()
 					case COUNTING_SORT: //O(n), 空间O(length + max)
 						 counting_sort(array, length, max);
 						 break;
-					case MERGE_SORT:
-						 merge_sort(array, length);
+					case MERGE_SORT: //O(nlogn),空间O(n)
+						 merge_sort(array, 0, length - 1);
 						 break;
 					case BINARY_TREE_SORT:
 						 break;
