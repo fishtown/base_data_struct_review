@@ -35,7 +35,6 @@ typedef enum {
 		SHELL_SORT,//G
 		QUICK_SORT,//G
 		HEAP_SORT,//G
-		BUCKET_SORT,
 		COUNTING_SORT,
 		SORT_END,
 }SORTFUNC;
@@ -53,7 +52,6 @@ struct Sort_Func_Tips {
 		{QUICK_SORT, "quick sort(快速排序)"},
 		{HEAP_SORT, "heap sort(堆排序)"},
 		{SORT_END, "exit(退出)"},
-		{BUCKET_SORT, "bucket sort(桶排序)"},
 		{COUNTING_SORT, "counting sort(计数排序)"},
 };
 
@@ -165,7 +163,7 @@ static int getbitvalue(int k, int i)
 }
 
 /*O(n)*/
-static void bucket_sort(int *a, int len, int max)
+static void radix_sort(int *a, int len, int max) //LSD
 {
 		int i,j,l,k = 0;
 		int bkt[10][max];
@@ -329,4 +327,31 @@ static merge_sort(int *a, int left, int right)
 			merge_sort(a, mid + 1, right);
 			merge(a, left, mid, right);
 		}
+}
+
+//O(n^2)
+static selection_sort(int *a, int len)
+{
+	int i, j, k = 0;
+	int _min = 0;
+
+	for (i = 0; i < len; i ++)
+	{
+		_min = a[i];
+		k = -1;
+		for (j = i; j < len; j ++)
+		{
+			if (a[j] < _min)
+			{
+				k = j;
+				_min = a[j];
+			}
+		}
+		if (k != -1)
+		swap(a + i, a + k);
+	}
+}
+//Just use gap sequence(5,3,1)
+static shell_sort(int *a, int len)
+{
 }

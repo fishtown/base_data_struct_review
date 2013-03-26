@@ -52,12 +52,15 @@ void Sort()
 						 break;
 
 					case SELECTION_SORT:
+						 selection_sort(array, length); //O(n^2)
 						 break;
 
 					case RADIX_SORT:
+						 radix_sort(array, length, max);
 						 break;
 
 					case SHELL_SORT:
+						 shell_sort(array, length);
 						 break;
 
 					case QUICK_SORT: //O(nlogn) ~ O(n^2)
@@ -68,10 +71,6 @@ void Sort()
 						 break;
 
 /*------------------------other methods--------------------------------------------*/
-					case BUCKET_SORT: //O(n)
-						 bucket_sort(array, length, max);
-						 break;
-
 					case COUNTING_SORT: //O(n), 空间O(length + max)
 						 counting_sort(array, length, max);
 						 break;
