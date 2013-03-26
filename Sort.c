@@ -38,27 +38,44 @@ void Sort()
 					case BUBBLE_SORT: //O(n^2)
 						 bubble_sort(array, length);
 						 break;
+
 					case INSERTION_SORT: //O(n^2)
 						 insertion_sort(array, length);
 						 break;
-					case BUCKET_SORT: //O(n)
-						 bucket_sort(array, length, max);
+
+					case BINARY_INSERTION_SORT: //O(n^2)
+						 binary_insertion_sort(array, length);
 						 break;
-					case COUNTING_SORT: //O(n), 空间O(length + max)
-						 counting_sort(array, length, max);
-						 break;
+
 					case MERGE_SORT: //O(nlogn),空间O(n)
 						 merge_sort(array, 0, length - 1);
 						 break;
-					case BINARY_TREE_SORT:
+
+					case SELECTION_SORT:
 						 break;
+
+					case RADIX_SORT:
+						 break;
+
 					case SHELL_SORT:
 						 break;
+
 					case QUICK_SORT: //O(nlogn) ~ O(n^2)
 						 quick_sort(array, 0, length - 1);
 						 break;
+
 					case HEAP_SORT:
 						 break;
+
+/*------------------------other methods--------------------------------------------*/
+					case BUCKET_SORT: //O(n)
+						 bucket_sort(array, length, max);
+						 break;
+
+					case COUNTING_SORT: //O(n), 空间O(length + max)
+						 counting_sort(array, length, max);
+						 break;
+
 					case SORT_END:
 						 return;
 					default:

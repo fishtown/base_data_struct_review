@@ -26,15 +26,17 @@ static int* initarray(int length, int max)
 }
 
 typedef enum {
-		BUBBLE_SORT = 0,
-		INSERTION_SORT,
+		BUBBLE_SORT = 0,//G
+		INSERTION_SORT,//G
+		BINARY_INSERTION_SORT,//G
+		MERGE_SORT,//G
+		SELECTION_SORT,//G
+		RADIX_SORT,//G
+		SHELL_SORT,//G
+		QUICK_SORT,//G
+		HEAP_SORT,//G
 		BUCKET_SORT,
 		COUNTING_SORT,
-		MERGE_SORT,
-		BINARY_TREE_SORT,
-		SHELL_SORT,
-		QUICK_SORT,
-		HEAP_SORT,
 		SORT_END,
 }SORTFUNC;
 struct Sort_Func_Tips {
@@ -43,14 +45,16 @@ struct Sort_Func_Tips {
 }SortFuncTips[SORT_END + 1] = {
 		{BUBBLE_SORT, "bubble sort(冒泡排序)"},
 		{INSERTION_SORT, "insertion sort(插入排序)"},
-		{BUCKET_SORT, "bucket sort(桶排序)"},
-		{COUNTING_SORT, "counting sort(计数排序)"},
+		{BINARY_INSERTION_SORT,"binary insertion sort(折半插入排序)"},
 		{MERGE_SORT, "merge sort(归并排序)"},
-		{BINARY_TREE_SORT, "binary tree sort(二叉数排序)"},
+		{SELECTION_SORT, "selection sort(选择排序)"},
+		{RADIX_SORT, "radix sort (基数排序)"},
 		{SHELL_SORT, "shell sort(希尔排序)"},
 		{QUICK_SORT, "quick sort(快速排序)"},
 		{HEAP_SORT, "heap sort(堆排序)"},
 		{SORT_END, "exit(退出)"},
+		{BUCKET_SORT, "bucket sort(桶排序)"},
+		{COUNTING_SORT, "counting sort(计数排序)"},
 };
 
 static void dump_sorted(int *a, int len)
@@ -211,15 +215,54 @@ static void bucket_sort(int *a, int len, int max)
 static insertion_sort(int *a, int len)
 {
 		int i, j = 0;
+		int k, _tmp = 0;
+
 		for (i = 1; i < len; i ++)
 		{
-				for (j = 0; j < i; j ++)
-				{
-					if (a[i] < a[j])
-							swap(a + i, a + j);
-				}
+#if MMZ_OPT
+			for (j = 0; j < i; j ++)
+			{
+				if (a[i] < a[j])
+					swap(a + i, a + j);
+			}
+#else
+			for (j = 0; j < i && a[i] > a[j]; j++);
+			_tmp = a[i];
+			for (k = i; k > j; k--)
+					a[k] = a[k - 1];
+			a[j] = _tmp;
+#endif
 		}
-		dump_sorted(a,len);
+}
+
+//O(n^2)
+static binary_insertion_sort(int *a, int len)
+{
+		int i, j = 0;
+		int mid, low, high = 0;
+		int _tmp;
+
+		for (i = 1; i < len; i ++)
+		{
+			low = 0;
+			high = i -1 ;
+			while (low <= high)
+			{
+				mid = (low + high) / 2;
+				if (a[mid] < a[i])
+					low = mid + 1;
+				else
+					high = mid - 1;
+			}
+
+			mid = high +1;//mid the shoot position, reverse resean is last "high = mid -1"
+			_tmp = a[i];
+
+			for (j = i; j > mid; j--)
+				a[j] = a[j - 1];
+
+			a[mid] = _tmp;
+		}
 }
 
 //O(n)
