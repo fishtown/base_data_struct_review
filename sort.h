@@ -223,13 +223,22 @@ static insertion_sort(int *a, int len)
 				if (a[i] < a[j])
 					swap(a + i, a + j);
 			}
-#else
+#endif
+/*ugly issue As we sure there will be one to insert,why we sitll judge whether to move?
+ stubid logic so modify it*/
+#if 0
 			for (j = 0; j < i && a[i] > a[j]; j++);
 			_tmp = a[i];
 			for (k = i; k > j; k--)
 					a[k] = a[k - 1];
 			a[j] = _tmp;
 #endif
+			_tmp = a[i];
+			for (j = i -1; j >= 0 && a[j] > _tmp; j --)
+			{
+				a[j + 1] = a[j];
+			}
+			a[j + 1] = _tmp;
 		}
 }
 
@@ -354,4 +363,20 @@ static selection_sort(int *a, int len)
 //Just use gap sequence(5,3,1)
 static shell_sort(int *a, int len)
 {
+		int i, j, _tmp;
+		int gap = 5;
+
+		while (gap > 0)
+		{
+				for (i = gap; i < len; i++ )
+				{
+						_tmp = a[i];
+						for (j = i - gap; j >= 0 && a[j] > _tmp; j -= gap)
+						{
+								a[j + gap] = a[j];
+						}
+						a[j + gap] = _tmp;
+				}
+				gap = gap - 2;
+		}
 }
